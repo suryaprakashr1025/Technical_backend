@@ -9,7 +9,7 @@ const validateEmail = (email) =>{
 
 
 const adminSchema = new schema ({
-    adminName:{
+    userName:{
         type:String,
         required:true,
         trim:true,

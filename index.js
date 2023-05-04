@@ -19,14 +19,14 @@ mongoose.connect(process.env.db,{
 
 
 app.use(cors({
-    origin:"*",
+    origin:"http://localhost:3000",
 }))
 
 app.use(bodyParser.json())
 
 app.use("/",admin)
 app.use("/",user)
-app.use("/book", express.static('uploadPdf'))
+app.use("/pdf", express.static('uploadPdf'))
 app.use("/",pdf)
 app.listen(process.env.PORT,(err)=>{  
     if(err){

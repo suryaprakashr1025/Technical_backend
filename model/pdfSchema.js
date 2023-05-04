@@ -4,13 +4,13 @@ const model = mongoose.model
 
 
 const pdfSchema = new schema({
-    bookName:{
+    bookname:{
         type:String,
         required:true,
         trim:true
     },
     pdf:{
-        type:Array,
+        type:String,
         required:true,
         trim:true
     }

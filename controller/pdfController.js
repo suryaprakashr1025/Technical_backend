@@ -25,7 +25,7 @@ const upload = multer({
         cb("only supports the following filetypes: " + filetypes)
 
     }
-}).array("book")
+}).single("pdf")
 
 
 
@@ -36,24 +36,26 @@ exports.uploadPdf = async (req, res) => {
                 console.log(err)
             } else {
 
-                // console.log('fileDetails', req.files)
+                console.log('fileDetails', req.file)
 
-                const reqFiles = req.files
+                const reqFiles = req.file
 
                 const newImage = new pdfDetails({
-                    bookName: req.body.bookName,
-                    pdf: reqFiles.map(i => {
-                        return `http://localhost:${process.env.PORT}/book/${i.filename}`
-                    })
+                    bookname: req.body.bookname,
+                    // pdf: reqFiles.map(i => {
+                    //     return `http://localhost:${process.env.PORT}/book/${i.filename}`
+                    // })
+                    pdf:`http://localhost:${process.env.PORT}/pdf/${reqFiles.filename}`
                 })
 
                 newImage.save().then(() => {
 
                     res.json({
                         message: "succefully uploaded",
-                        profile_url: reqFiles.map(i => {
-                            return `http://localhost:${process.env.PORT}/book/${i.filename}`
-                        })
+                        // profile_url: reqFiles.map(i => {
+                        //     return `http://localhost:${process.env.PORT}/book/${i.filename}`
+                        // })
+                        profile_url: `http://localhost:${process.env.PORT}/pdf/${reqFiles.filename}`
                     })
                 }).catch((err) => {
                     console.log(err)
@@ -87,15 +89,15 @@ exports.updateBook = async (req, res) => {
                 if (err) {
                     console.log(err)
                 } else {
-                    const reqFiles = req.files
+                    const reqFiles = req.file
                     console.log('reqFiles',reqFiles.length)
-                    const bookName= req.body.bookName || findBook.bookName
+                    const bookname= req.body.bookname || findBook.bookname
                      const pdf =reqFiles.length>0? reqFiles.map(i => {
                             return `http://localhost:${process.env.PORT}/book/${i.filename}`
                         }) : findBook.pdf
                     
     
-                   const updatebook = await pdfDetails.findByIdAndUpdate({_id:_id},{$set:{bookName:bookName,pdf:pdf}})
+                   const updatebook = await pdfDetails.findByIdAndUpdate({_id:_id},{$set:{bookname:bookname,pdf:pdf}})
                         res.json({message:"updated successfully",updatebook})
                 }
             })

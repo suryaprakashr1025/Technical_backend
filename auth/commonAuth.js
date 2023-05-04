@@ -8,9 +8,9 @@ exports.commonAuthorization = async (req, res, next) => {
             const splitToken = token.split(" ")[1]
             console.log(req.headers.authorization)
 
-            if (splitToken) {
+            // if (splitToken) {
 
-                const decodedToken = jwt.verify(splitToken, process.env.JWT_SECRET)
+                const decodedToken = jwt.verify(req.headers.authorization, process.env.JWT_SECRET)
                 //console.log(decodedToken.admin , decodedToken.user)
                 if (!decodedToken) {
                     return res.json({ message: 'Unauthorized' })
@@ -20,9 +20,9 @@ exports.commonAuthorization = async (req, res, next) => {
             } else {
                 res.status(401).json({ message: "Unauthorized" })
             }
-        } else {
-            res.status(401).json({ message: "Unauthorized" })
-        }
+        // } else {
+        //     res.status(401).json({ message: "Unauthorized" })
+        // }
     } catch (error) {
         res.status(500).json({ message: "something went wrong" })
     }

@@ -8,9 +8,9 @@ exports.adminAuthorization = async (req, res, next) => {
             const splitToken = token.split(" ")[1]
             console.log(req.headers.authorization)
     
-            if (splitToken) {
+            // if (splitToken) {
     
-                const decodedToken = jwt.verify(splitToken, process.env.JWT_SECRET, (err,decoded) => {
+                const decodedToken = jwt.verify( req.headers.authorization, process.env.JWT_SECRET, (err,decoded) => {
                     console.log('admin',decoded.admin,process.env.ADMIN )
                     if (err && decoded.admin !== process.env.ADMIN || decoded.admin === undefined) {
                         return res.json({ message: 'Unauthorized' })
@@ -18,9 +18,9 @@ exports.adminAuthorization = async (req, res, next) => {
                     next()
                 })
     
-            } else {
-                res.status(401).json({ message: "Unauthorized" })
-            }
+            // } else {
+            //     res.status(401).json({ message: "Unauthorized" })
+            // }
     
         }else{
             res.status(401).json({ message: "Unauthorized" })

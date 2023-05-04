@@ -33,12 +33,10 @@ exports.createAdmin = async (req,res) =>{
 
 exports.loginAdmin = async(req,res) =>{
     try{
-        const findAdmin = await adminDetails.findOne({adminName:req.body.adminName})
+        const findAdmin = await adminDetails.findOne({userName:req.body.userName})
         console.log('adminName',findAdmin)
         if(findAdmin){
             const token = jwt.sign({_id:findAdmin._id,admin:process.env.ADMIN},process.env.JWT_SECRET,{expiresIn:'1d'})
-            // const check = jwt.verify(token,process.env.JWT_SECRET)
-            // console.log(check.admin)
             if(token){
                 const compare = await bcrypt.compare(req.body.password,findAdmin.password)
                 console.log('compare',compare)
@@ -46,7 +44,7 @@ exports.loginAdmin = async(req,res) =>{
                 if(compare){
                     res.status(200).json({message:"success",token})
                 }else{
-                    res.status(403).json({message:'adminname and password is incorrect" '})
+                    res.status(403).json({message:'userName and password is incorrect" '})
                 }
 
             }else{
